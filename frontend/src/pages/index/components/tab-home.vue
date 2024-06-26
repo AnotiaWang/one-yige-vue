@@ -2,7 +2,7 @@
   <view class="bg-gray-100 h-full">
     <!-- 顶部 tabbar -->
     <view
-      class="sticky px-3 py-4 top-0 flex items-end z-1 bg-white"
+      class="sticky px-4 py-4 top-0 flex items-end z-1 bg-white"
       :style="{ paddingTop: `${safeTop}px` }"
     >
       <template v-if="currentCardDate">
@@ -81,16 +81,16 @@
                 />
                 <!-- 点赞 -->
                 <view class="flex items-center mt-2 ml-auto">
-                  <span
+                  <view
                     :class="['material-icons', randomArticle.likeUsers.includes(userInfo?.id!) && 'text-red']"
-                    @click="toggleArticleLike()"
+                    @click.stop.prevent="toggleArticleLike()"
                   >
                     {{
                       randomArticle.likeUsers.includes(userInfo?.id!)
                         ? 'favorite'
                         : 'favorite_border'
                     }}
-                  </span>
+                  </view>
                   <text class="text-gray text-14px ml-1">
                     {{ randomArticle.likeUsers.length ?? 0 }}
                   </text>
