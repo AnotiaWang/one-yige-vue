@@ -150,6 +150,7 @@
         if (card.id === result.id) return result
         return card
       })
+      uni.vibrateShort()
     } catch (error: any) {
       uni.showModal({
         title: '点赞失败',
@@ -172,6 +173,7 @@
         if (card.id === currentCard.value?.id) return currentCard.value
         return card
       })
+      uni.vibrateShort()
     } catch (error: any) {
       uni.showModal({
         title: '收藏失败',
@@ -202,6 +204,7 @@
     if (!randomArticle.value) return
     try {
       randomArticle.value = await api.toggleLikeArticle(randomArticle.value.id)
+      uni.vibrateShort()
     } catch (error: any) {
       uni.showModal({
         title: '点赞失败',

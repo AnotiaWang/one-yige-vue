@@ -14,7 +14,7 @@
       </view>
     </scroll-view>
 
-    <view v-if="article" class="sticky bottom-0 h-10 bg-white w-full flex items-center">
+    <view v-if="article" class="sticky bottom-0 h-15 bg-white w-full flex items-center">
       <span
         :class="['material-icons ml-auto', article.likeUsers.includes(userInfo?.id!) && 'text-red']"
         @click="toggleArticleLike()"
@@ -29,6 +29,7 @@
 <script setup lang="ts">
   import type { Article } from '@/types/entity'
 
+  const { safeBottom } = storeToRefs(usePaddingsStore())
   const { userInfo } = storeToRefs(useUserStore())
 
   const article = ref<Article>()
@@ -64,6 +65,7 @@
 
     try {
       article.value = await api.toggleLikeArticle(article.value.id)
+      uni.vibrateShort()
     } catch (error: any) {
       uni.showModal({
         title: '点赞失败',

@@ -1,7 +1,7 @@
 <template>
-  <view class="flex flex-col h-screen" :style="{ marginTop: `${safeTop}px` }">
+  <view class="flex flex-col h-screen">
     <image
-      class="w-full h-45 shrink-0 object-cover"
+      class="w-full h-60 shrink-0 object-cover"
       mode="aspectFill"
       src="/static/login-page-background.png"
     />
