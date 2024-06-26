@@ -12,7 +12,12 @@ export const useUserStore = defineStore('user', () => {
         try {
           userInfo.value = await api.getUserInfo()
         } catch (error: any) {
-          uni.showModal({ title: `获取用户信息失败`, content: error.message })
+          if (error.message === 'Unauthorized') {
+            userInfo.value = undefined
+            token.value = ''
+          } else {
+            uni.showModal({ title: `获取用户信息失败`, content: error.message })
+          }
         }
       }
     })

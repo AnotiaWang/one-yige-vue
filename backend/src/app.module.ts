@@ -6,6 +6,7 @@ import { DevtoolsModule } from '@nestjs/devtools-integration'
 import { UserModule } from './user/user.module'
 import { DatabaseModule } from './database/database.module'
 import { DailyCardModule } from './daily-card/daily-card.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DailyCardModule } from './daily-card/daily-card.module';
     DatabaseModule,
     UserModule,
     DailyCardModule,
+    ArticleModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],

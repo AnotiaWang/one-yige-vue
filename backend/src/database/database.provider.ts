@@ -10,7 +10,6 @@ export const databaseProviders: Provider[] = [
       const dataSource = new DataSource({
         type: 'better-sqlite3',
         database: './data/data.sqlite',
-        logging: true,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       })

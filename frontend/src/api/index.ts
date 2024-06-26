@@ -1,4 +1,4 @@
-import type { DailyCard, UserInfo } from '@/types/entity'
+import type { Article, DailyCard, UserInfo } from '@/types/entity'
 
 const req = promisify(uni.request)
 
@@ -6,7 +6,7 @@ const req = promisify(uni.request)
 const baseUrl = 'http://172.29.18.28:3000'
 
 function parseResponse(result: UniApp.RequestSuccessCallbackResult) {
-  if (result.statusCode === 400) {
+  if (result.statusCode !== 200 && result.statusCode !== 201) {
     console.error(result)
     throw new Error((result.data as any).message)
   }
@@ -70,7 +70,7 @@ export const api = {
     return parseResponse(result) as DailyCard[]
   },
 
-  async toggleDailyCardLike(id: number) {
+  async toggleLikeDailyCard(id: number) {
     const result = await req({
       url: baseUrl + `/daily-card/${id}/like`,
       method: 'POST',
@@ -86,5 +86,30 @@ export const api = {
       header: await getHeader(),
     })
     return parseResponse(result) as DailyCard
+  },
+
+  async getArticleList() {
+    const result = await req({
+      url: baseUrl + '/article',
+      method: 'GET',
+    })
+    return parseResponse(result) as Article[]
+  },
+
+  async getRandomArticle() {
+    const result = await req({
+      url: baseUrl + '/article/random',
+      method: 'GET',
+    })
+    return parseResponse(result) as Article
+  },
+
+  async toggleLikeArticle(id: number) {
+    const result = await req({
+      url: baseUrl + `/article/${id}/like`,
+      method: 'POST',
+      header: await getHeader(),
+    })
+    return parseResponse(result) as Article
   },
 }

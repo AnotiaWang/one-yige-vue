@@ -14,3 +14,14 @@ export interface DailyCard {
   likeUsers: number[]
   markUsers: number[]
 }
+
+export interface Article {
+  id: number
+  title: string
+  author: string
+  content: string
+  likeUsers: number[]
+  markUsers: number[]
+  createdAt: string
+  coverUrl: string
+}

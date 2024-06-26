@@ -8,17 +8,23 @@
       ></div>
     </view>
     <view class="flex flex-col items-center mt-auto mb-20">
-      <button
+      <navigator
         class="bg-#222222 text-gray-100 font-light flex flex-col items-center justify-center w-20 h-20 rounded-full transition-colors text-sm"
+        url="/pages/login-register/index?type=login"
+        :render-link="false"
         hover-class="bg-gray-600"
-        @click="onClickLogin"
       >
         登录
         <br />
         <span class="text-xs"> ONE-个 </span>
-      </button>
-      <p class="mt-4 text-gray-600">
-        还没有账号？<span class="underline" @click="onClickRegister">点击注册</span>
+      </navigator>
+      <p class="mt-4 text-gray-600 flex">
+        还没有账号？<navigator
+          class="underline"
+          url="/pages/login-register/index?type=register"
+          :render-link="false"
+          >点击注册</navigator
+        >
       </p>
     </view>
   </view>
@@ -30,17 +36,6 @@
   watchEffect(() => {
     console.log(userStore.userInfo)
   })
-  function onClickLogin() {
-    uni.navigateTo({
-      url: '/pages/login-register/index?type=login',
-    })
-  }
-
-  function onClickRegister() {
-    uni.navigateTo({
-      url: '/pages/login-register/index?type=register',
-    })
-  }
 </script>
 
 <style scoped></style>

@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  Request,
 } from '@nestjs/common'
 import { DailyCardService } from './daily-card.service'
 import { CreateDailyCardDto } from './dto/create-daily-card.dto'
@@ -49,12 +51,14 @@ export class DailyCardController {
   }
 
   @Post(':id/like')
-  async toggleLike(@Param('id') id: string) {
-    return this.dailyCardService.toggleLike(+id, 1)
+  async toggleLike(@Param('id') id: string, @Req() req: any) {
+    const userId = req.user.uid
+    return this.dailyCardService.toggleLike(+id, userId)
   }
 
   @Post(':id/mark')
-  async toggleMark(@Param('id') id: string) {
-    return this.dailyCardService.toggleMark(+id, 1)
+  async toggleMark(@Param('id') id: string, @Req() req: any) {
+    const userId = req.user.uid
+    return this.dailyCardService.toggleMark(+id, userId)
   }
 }

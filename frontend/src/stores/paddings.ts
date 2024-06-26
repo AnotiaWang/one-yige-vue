@@ -5,7 +5,7 @@ export const usePaddingsStore = defineStore('paddings', () => {
   const screenWidth = ref(systemInfo.screenWidth)
   const screenHeight = ref(systemInfo.screenHeight)
   const safeTop = ref(systemInfo.statusBarHeight ?? 0)
-  const safeBottom = ref(systemInfo.safeAreaInsets?.bottom ?? 34)
+  const safeBottom = ref(systemInfo.safeAreaInsets?.bottom ?? 56)
   const menuBarHeight = computed(() => 2 * (menuRect.top - safeTop.value) + menuRect.height)
   const headerHeight = computed(() => safeTop.value + menuBarHeight.value)
 

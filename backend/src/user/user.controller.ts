@@ -40,7 +40,7 @@ export class UserController {
       throw new BadRequestException('用户名或密码错误')
     }
 
-    const token = this.jwtService.sign({ uid: user.id })
+    const token = this.jwtService.sign({ uid: user.id }, { expiresIn: '7d' })
 
     return { token }
   }
@@ -59,7 +59,7 @@ export class UserController {
     newUser.password = password
     await this.userRepository.save(newUser)
 
-    const token = this.jwtService.sign({ uid: newUser.id })
+    const token = this.jwtService.sign({ uid: newUser.id }, { expiresIn: '7d' })
     return { token }
   }
 
