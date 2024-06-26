@@ -1,0 +1,24 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/login-register/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"app-plus": {
+			"bounce": "none"
+		},
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
