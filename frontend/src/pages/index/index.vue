@@ -1,9 +1,8 @@
 <template>
-  <view
-    class="flex flex-col h-screen"
-  >
+  <view class="flex flex-col h-screen">
     <div class="mb-59px h-full">
       <tab-home v-show="tab === Tab.Home"></tab-home>
+      <tab-discover v-show="tab === Tab.Discover"></tab-discover>
       <tab-login v-show="tab === Tab.Profile"></tab-login>
     </div>
     <tab-bar>
@@ -21,13 +20,8 @@
 
 <script setup lang="ts">
   import TabHome from './components/tab-home.vue'
+  import TabDiscover from './components/tab-discover.vue'
   import TabLogin from './components/tab-login.vue'
-
-  const { safeTop } = storeToRefs(usePaddingsStore())
-
-  watchEffect(() => {
-    console.log(safeTop.value)
-  })
 
   enum Tab {
     Home,
@@ -36,7 +30,7 @@
     Profile,
   }
 
-  const tab = ref<Tab>(Tab.Home)
+  const tab = ref<Tab>(Tab.Discover)
 
   const tabs = [
     { title: '首页', icon: 'circle', tab: Tab.Home },

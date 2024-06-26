@@ -96,6 +96,14 @@ export const api = {
     return parseResponse(result) as Article[]
   },
 
+  async getArticle(id: number) {
+    const result = await req({
+      url: baseUrl + `/article/${id}`,
+      method: 'GET',
+    })
+    return parseResponse(result) as Article
+  },
+
   async getRandomArticle() {
     const result = await req({
       url: baseUrl + '/article/random',

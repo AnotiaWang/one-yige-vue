@@ -1,6 +1,5 @@
 <template>
   <view class="bg-gray-100 h-full">
-    <!-- <view class="flex flex-col h-full"> </view> -->
     <!-- 顶部 tabbar -->
     <view
       class="sticky px-3 py-4 top-0 flex items-end z-1 bg-white"
@@ -63,33 +62,41 @@
             <!-- 分割线 -->
             <text class="bg-gray-100 z-1 h-2 w-full my-4">&ZeroWidthSpace;</text>
             <!-- 阅读 一篇文章 -->
-            <view v-if="randomArticle" class="flex flex-col px-4">
-              <text class="text-center text-2 text-gray">- 阅 读 -</text>
-              <text class="text-lg line-clamp-1 mt-4">{{ randomArticle.title }}</text>
-              <text class="text-gray text-12px mt-1">文 / {{ randomArticle.author }}</text>
-              <text class="text-gray text-16px mt-4 leading-28px line-clamp-3">
-                {{ randomArticle.content }}
-              </text>
-              <image
-                class="w-full h-40 mt-4 rounded-lg"
-                mode="aspectFill"
-                :src="randomArticle.coverUrl"
-              />
-              <!-- 点赞 -->
-              <view class="flex items-center mt-2 ml-auto">
-                <span
-                  :class="['material-icons', randomArticle.likeUsers.includes(userInfo?.id!) && 'text-red']"
-                  @click="toggleArticleLike()"
-                >
-                  {{
-                    randomArticle.likeUsers.includes(userInfo?.id!) ? 'favorite' : 'favorite_border'
-                  }}
-                </span>
-                <text class="text-gray text-14px ml-1">{{
-                  randomArticle.likeUsers.length ?? 0
-                }}</text>
+            <navigator
+              v-if="randomArticle"
+              :url="`/pages/article/index?id=${randomArticle.id}`"
+              hover-class="none"
+            >
+              <view class="flex flex-col px-4">
+                <text class="text-center text-2 text-gray">- 阅 读 -</text>
+                <text class="text-lg line-clamp-1 mt-4">{{ randomArticle.title }}</text>
+                <text class="text-gray text-12px mt-1">文 / {{ randomArticle.author }}</text>
+                <text class="text-gray text-16px mt-4 leading-28px line-clamp-3">
+                  {{ randomArticle.content }}
+                </text>
+                <image
+                  class="w-full h-40 mt-4 rounded-lg"
+                  mode="aspectFill"
+                  :src="randomArticle.coverUrl"
+                />
+                <!-- 点赞 -->
+                <view class="flex items-center mt-2 ml-auto">
+                  <span
+                    :class="['material-icons', randomArticle.likeUsers.includes(userInfo?.id!) && 'text-red']"
+                    @click="toggleArticleLike()"
+                  >
+                    {{
+                      randomArticle.likeUsers.includes(userInfo?.id!)
+                        ? 'favorite'
+                        : 'favorite_border'
+                    }}
+                  </span>
+                  <text class="text-gray text-14px ml-1">
+                    {{ randomArticle.likeUsers.length ?? 0 }}
+                  </text>
+                </view>
               </view>
-            </view>
+            </navigator>
           </view>
         </scroll-view>
       </swiper-item>
