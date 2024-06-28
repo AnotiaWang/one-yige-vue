@@ -2,7 +2,7 @@
   <view class="bg-gray-100 h-full">
     <!-- 顶部 tabbar -->
     <view
-      class="sticky px-4 py-4 top-0 flex items-end z-1 bg-white"
+      class="sticky px-6 py-4 top-2 flex items-end z-1 bg-white"
       :style="{ paddingTop: `${safeTop}px` }"
     >
       <template v-if="currentCardDate">
@@ -50,7 +50,7 @@
       <swiper-item v-for="card in cards" class="bg-white" :key="card.id" :item-id="card.id">
         <scroll-view class="h-full" scroll-y enable-flex>
           <view class="flex flex-col h-full pb-100">
-            <view class="max-h-120 mx-4 my-3 flex flex-col rounded-bl rounded-br shadow-md">
+            <view class="max-h-120 mx-6 my-3 flex flex-col rounded-bl rounded-br shadow-md">
               <image class="w-full max-h-60" mode="aspectFill" :src="card.imageUrl" />
               <text class="mx-auto my-3 text-gray-4 text-14px">
                 {{ card.category }} {{ card.source ? `| ${card.source}` : '' }}
@@ -61,7 +61,7 @@
                 </text>
               </view>
             </view>
-            <view class="flex items-center mx-3">
+            <view class="flex items-center mx-6">
               <span
                 :class="['material-icons mx-3 ml-auto', card.markUsers.includes(userInfo?.id!) && 'text-yellow']"
                 @click="toggleMark()"
@@ -84,7 +84,7 @@
               :url="`/pages/article/index?id=${randomArticle.id}`"
               hover-class="none"
             >
-              <view class="flex flex-col px-4">
+              <view class="flex flex-col px-6">
                 <text class="text-center text-2 text-gray">- 阅 读 -</text>
                 <text class="text-lg line-clamp-1 mt-4">{{ randomArticle.title }}</text>
                 <text class="text-gray text-12px mt-1">文 / {{ randomArticle.author }}</text>
@@ -97,7 +97,7 @@
                   :src="randomArticle.coverUrl"
                 />
                 <!-- 点赞 -->
-                <view class="flex items-center mt-2 ml-auto">
+                <view class="flex items-center mt-3 ml-auto">
                   <view
                     :class="['material-icons', randomArticle.likeUsers.includes(userInfo?.id!) && 'text-red']"
                     @click.stop.prevent="toggleArticleLike()"
