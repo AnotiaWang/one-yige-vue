@@ -8,7 +8,7 @@ export class DailyCard {
   @Column()
   content: string
 
-  @Column('date', { default: 'NOW()' })
+  @Column('date')
   createdAt: Date
 
   @Column('text')

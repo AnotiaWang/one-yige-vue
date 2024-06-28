@@ -30,7 +30,7 @@
     Profile,
   }
 
-  const tab = ref<Tab>(Tab.Profile)
+  const tab = ref<Tab>(Tab.Home)
 
   const tabs = [
     { title: '首页', icon: 'circle', tab: Tab.Home },

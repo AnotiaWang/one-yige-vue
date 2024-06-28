@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Req,
-  Request,
 } from '@nestjs/common'
 import { DailyCardService } from './daily-card.service'
 import { CreateDailyCardDto } from './dto/create-daily-card.dto'

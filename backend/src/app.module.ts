@@ -5,8 +5,8 @@ import { UserController } from './user/user.controller'
 import { DevtoolsModule } from '@nestjs/devtools-integration'
 import { UserModule } from './user/user.module'
 import { DatabaseModule } from './database/database.module'
-import { DailyCardModule } from './daily-card/daily-card.module';
-import { ArticleModule } from './article/article.module';
+import { DailyCardModule } from './daily-card/daily-card.module'
+import { ArticleModule } from './article/article.module'
 
 @Module({
   imports: [

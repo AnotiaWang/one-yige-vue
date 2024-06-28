@@ -7,7 +7,9 @@ import {
   Logger,
   MaxFileSizeValidator,
   ParseFilePipe,
+  ParseFloatPipe,
   Post,
+  Query,
   Req,
   UploadedFile,
   UseInterceptors,
@@ -23,6 +25,38 @@ import { JwtService } from '@nestjs/jwt'
 import { Public } from './user.guard'
 import { FileInterceptor } from '@nestjs/platform-express'
 
+interface AMapAddress {
+  status: string
+  regeocode: {
+    formatted_address: string
+    addressComponent: {
+      country: string
+      province: string
+      city: string
+      district: string
+      township: string
+      adcode: string
+    }
+  }
+}
+
+interface AMapWeather {
+  status: string
+  count: string
+  info: string
+  infocode: string
+  lives: {
+    province: string
+    city: string
+    adcode: string
+    weather: string
+    temperature: string
+    winddirection: string
+    windpower: string
+    humidity: string
+    reporttime: string
+  }[]
+}
 @Controller('user')
 export class UserController {
   private readonly logger = new Logger(UserController.name)
@@ -116,5 +150,24 @@ export class UserController {
     }
     const updated = await this.userRepository.save(u)
     return updated
+  }
+
+  @Public()
+  @Get('weather')
+  async getWeather(
+    @Query('longtitude', ParseFloatPipe) longtitude: number,
+    @Query('latitude', ParseFloatPipe) latitude: number,
+  ) {
+    this.logger.log(`weather: ${longtitude}, ${latitude}`)
+    // 逆编码地址
+    const res = await fetch(
+      `https://restapi.amap.com/v3/geocode/regeo?key=${process.env.AMAP_API_KEY}&location=${longtitude},${latitude}`,
+    )
+    const json = (await res.json()) as AMapAddress
+    const resWeather = await fetch(
+      `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.AMAP_API_KEY}&city=${json.regeocode.addressComponent.adcode}`,
+    )
+    const weather = (await resWeather.json()) as AMapWeather
+    return weather.lives[0]
   }
 }

@@ -17,7 +17,9 @@
 			"delay": 0
 		},
 		/* 模块配置 */
-		"modules": {},
+		"modules": {
+			"Geolocation": {}
+		},
 		/* 应用发布信息 */
 		"distribute": {
 			/* android打包配置 */
@@ -44,7 +46,13 @@
 				"idfa": true
 			},
 			/* SDK配置 */
-			"sdkConfigs": {},
+			"sdkConfigs": {
+				"geolocation": {
+					"system": {
+						"__platform__": ["ios", "android"]
+					}
+				}
+			},
 			"splashscreen": {
 				"androidStyle": "common",
 				"useOriginalMsgbox": false

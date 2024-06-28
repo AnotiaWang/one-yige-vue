@@ -85,7 +85,7 @@
       </view>
     </view>
 
-    <template v-else>
+    <view v-else class="flex flex-col h-full">
       <view class="relative flex items-center justify-center">
         <image class="w-full h-60" mode="aspectFill" src="/static/login-tab-background.jpeg" />
         <div
@@ -113,7 +113,7 @@
           </navigator>
         </p>
       </view>
-    </template>
+    </view>
   </scroll-view>
 </template>
 

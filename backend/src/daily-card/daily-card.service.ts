@@ -17,13 +17,17 @@ export class DailyCardService {
     this.logger.log('createDailyCardDto: ' + JSON.stringify(createDailyCardDto))
     return this.dailyCardRepository.save({
       ...createDailyCardDto,
-      createdAt: createDailyCardDto.createdAt || new Date(),
+      createdAt:
+        createDailyCardDto.createdAt || new Date().toISOString().split('T')[0],
     })
   }
 
   findAll() {
     this.logger.log('findAll')
-    return this.dailyCardRepository.find()
+    return this.dailyCardRepository
+      .createQueryBuilder('dailyCard')
+      .orderBy('createdAt', 'DESC')
+      .getMany()
   }
 
   findOne(id: number) {

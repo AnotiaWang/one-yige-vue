@@ -12,9 +12,26 @@
         <text class="text-14px ml-1 font-serif tracking-tighter">
           {{ currentCardDate.month }}.{{ currentCardDate.year }}
         </text>
-        <text v-if="currentCardDate.isToday" class="ml-auto mr- text-gray-500 text-14px">
-          地球·对流层 -273.15°C
-        </text>
+        <view v-if="currentCardDate.isToday" class="ml-auto text-gray-500 text-14px">
+          <text v-if="weather?.data" class="text-gray" @click="getWeather(true)">
+            {{ weather.data.city }} · {{ weather.data.weather }} {{ weather.data.temperature }}°C
+          </text>
+          <view
+            v-if="weather?.error"
+            class="flex items-center gap-x-0.5 text-gray"
+            @click="getWeather(true)"
+          >
+            <text class="material-icons text-red !text-16px">refresh</text>
+            获取天气失败
+          </view>
+          <view
+            v-if="!weather?.data && !weather?.error"
+            class="text-gray flex items-center gap-x-0.5"
+          >
+            <text class="material-icons !text-16px animate-spin">refresh</text>
+            获取天气中...
+          </view>
+        </view>
         <button v-else class="text-14px ml-auto mr-0 self-center my-auto" @click="findTodaysCard()">
           今天
         </button>
@@ -32,7 +49,7 @@
     >
       <swiper-item v-for="card in cards" class="bg-white" :key="card.id" :item-id="card.id">
         <scroll-view class="h-full" scroll-y enable-flex>
-          <view class="flex flex-col h-full pb-60">
+          <view class="flex flex-col h-full pb-100">
             <view class="max-h-120 mx-4 my-3 flex flex-col rounded-bl rounded-br shadow-md">
               <image class="w-full max-h-60" mode="aspectFill" :src="card.imageUrl" />
               <text class="mx-auto my-3 text-gray-4 text-14px">
@@ -105,7 +122,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { Article, DailyCard } from '@/types/entity'
+  import type { AMapWeather, Article, DailyCard } from '@/types/entity'
 
   const { safeTop } = storeToRefs(usePaddingsStore())
   const { userInfo } = storeToRefs(useUserStore())
@@ -122,6 +139,7 @@
     }
   })
   const randomArticle = ref<Article>()
+  const weather = ref<{ error?: string; data?: AMapWeather }>()
 
   async function listCards() {
     try {
@@ -214,6 +232,37 @@
     }
   }
 
+  async function getWeather(showError = false) {
+    try {
+      weather.value = undefined
+      const data = await api.getWeather()
+      weather.value = { data }
+    } catch (error: any) {
+      console.error(error)
+      weather.value = { error: error.errMsg }
+      if (error.errMsg.includes('获取定位权限失败')) {
+        showError &&
+          uni.showModal({
+            title: '获取位置信息失败',
+            content: '请在设置中打开位置权限',
+            confirmText: '去设置',
+            success: (res) => {
+              if (res.confirm) {
+                uni.openAppAuthorizeSetting()
+              }
+            },
+          })
+      } else {
+        showError &&
+          uni.showModal({
+            title: '获取位置信息失败',
+            content: JSON.stringify(error),
+            showCancel: false,
+          })
+      }
+    }
+  }
+
   function findTodaysCard() {
     const currentDate = new Date().toISOString().split('T')[0]
     currentCard.value = cards.value.find((card) => card.createdAt === currentDate)
@@ -240,5 +289,6 @@
   onMounted(() => {
     listCards()
     getArticle()
+    getWeather()
   })
 </script>

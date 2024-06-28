@@ -1,4 +1,4 @@
-import type { Article, DailyCard, UserInfo } from '@/types/entity'
+import type { AMapWeather, Article, DailyCard, UserInfo } from '@/types/entity'
 
 const req = promisify(uni.request)
 
@@ -148,5 +148,18 @@ export const api = {
       })
     }
     return parseResponse(result) as UserInfo
+  },
+
+  async getWeather() {
+    const location = await promisify(uni.getLocation)()
+    const result = await req({
+      url: baseUrl + '/user/weather',
+      method: 'GET',
+      data: {
+        longtitude: location.longitude,
+        latitude: location.latitude,
+      },
+    })
+    return parseResponse(result) as AMapWeather
   },
 }
