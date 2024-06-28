@@ -25,6 +25,7 @@
     <swiper
       class="h-full bg-gray-100"
       :current="currentTab"
+      skip-hidden-item-layout
       @change="currentTab = $event.detail.current"
     >
       <swiper-item v-for="tab in tabs" :key="tab.index">

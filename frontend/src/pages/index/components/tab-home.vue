@@ -45,6 +45,7 @@
       :current-item-id="currentCard?.id"
       :circular="false"
       :previous-margin="false"
+      skip-hidden-item-layout
       @change="onSwipeChange"
     >
       <swiper-item v-for="card in cards" class="bg-white" :key="card.id" :item-id="card.id">
