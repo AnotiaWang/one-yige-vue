@@ -5,14 +5,23 @@ import {
   Get,
   Inject,
   Logger,
+  MaxFileSizeValidator,
+  ParseFilePipe,
   Post,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { JwtPayload, User } from './user.entity'
-import { LoginRequest, RegisterRequest } from './user.dao'
+import {
+  LoginRequest,
+  RegisterRequest,
+  UpdateUserInfoRequest,
+} from './user.dao'
 import { JwtService } from '@nestjs/jwt'
 import { Public } from './user.guard'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 @Controller('user')
 export class UserController {
@@ -64,7 +73,7 @@ export class UserController {
   }
 
   @Get('info')
-  async info(@Req() req: any) {
+  async getUserInfo(@Req() req: any) {
     const user = req.user as JwtPayload
     this.logger.log(`info: ${user.uid}`)
 
@@ -74,5 +83,38 @@ export class UserController {
     // @ts-ignore
     u.password = undefined
     return u
+  }
+
+  @Post('info')
+  @UseInterceptors(FileInterceptor('avatar'))
+  async updateUserInfo(
+    @Req() req: any,
+    @Body() body: UpdateUserInfoRequest,
+    @UploadedFile(
+      new ParseFilePipe({
+        fileIsRequired: false,
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 2000 * 1000,
+            message: '图片大小超出限制',
+          }),
+        ],
+      }),
+    )
+    avatar: Express.Multer.File,
+  ) {
+    const user = req.user as JwtPayload
+    this.logger.log(`update: ${user.uid}`)
+
+    const u = await this.userRepository.findOneBy({ id: user.uid })
+    if (!u) throw new BadRequestException('用户不存在')
+    if (body.nickname) {
+      u.nickname = body.nickname
+    }
+    if (avatar?.mimetype.startsWith('image')) {
+      u.avatar = `data:${avatar.mimetype};base64,${avatar.buffer.toString('base64')}`
+    }
+    const updated = await this.userRepository.save(u)
+    return updated
   }
 }

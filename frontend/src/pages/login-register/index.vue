@@ -3,7 +3,7 @@
     <image
       class="w-full h-60 shrink-0 object-cover"
       mode="aspectFill"
-      src="/static/login-page-background.png"
+      src="/static/login-page-background.jpeg"
     />
     <view class="mx-8 mt-10 mb-4 flex flex-col h-full">
       <view class="">帐号密码{{ type === 'login' ? '登录' : '注册' }}</view>

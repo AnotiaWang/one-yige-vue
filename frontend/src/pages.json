@@ -7,6 +7,12 @@
 			}
 		},
 		{
+			"path": "pages/index/edit-profile",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
+		},
+		{
 			"path": "pages/login-register/index",
 			"style": {
 				"navigationStyle": "custom"

@@ -3,7 +3,7 @@
     <div class="mb-59px h-full">
       <tab-home v-show="tab === Tab.Home"></tab-home>
       <tab-discover v-show="tab === Tab.Discover"></tab-discover>
-      <tab-login v-show="tab === Tab.Profile"></tab-login>
+      <tab-profile v-show="tab === Tab.Profile"></tab-profile>
     </div>
     <tab-bar>
       <tab-bar-button
@@ -21,7 +21,7 @@
 <script setup lang="ts">
   import TabHome from './components/tab-home.vue'
   import TabDiscover from './components/tab-discover.vue'
-  import TabLogin from './components/tab-login.vue'
+  import TabProfile from './components/tab-profile.vue'
 
   enum Tab {
     Home,
@@ -30,7 +30,7 @@
     Profile,
   }
 
-  const tab = ref<Tab>(Tab.Discover)
+  const tab = ref<Tab>(Tab.Profile)
 
   const tabs = [
     { title: '首页', icon: 'circle', tab: Tab.Home },

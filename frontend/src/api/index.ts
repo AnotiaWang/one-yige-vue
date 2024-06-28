@@ -5,10 +5,15 @@ const req = promisify(uni.request)
 // const baseUrl = 'http://localhost:3000'
 const baseUrl = 'http://172.29.18.28:3000'
 
-function parseResponse(result: UniApp.RequestSuccessCallbackResult) {
+function parseResponse(
+  result: UniApp.RequestSuccessCallbackResult | UniApp.UploadFileSuccessCallbackResult,
+) {
   if (result.statusCode !== 200 && result.statusCode !== 201) {
     console.error(result)
     throw new Error((result.data as any).message)
+  }
+  if (typeof result.data === 'string') {
+    return JSON.parse(result.data)
   }
   return result.data
 }
@@ -119,5 +124,29 @@ export const api = {
       header: await getHeader(),
     })
     return parseResponse(result) as Article
+  },
+
+  async updateUserInfo(params: { nickname?: string; avatar?: string }) {
+    let result: UniApp.UploadFileSuccessCallbackResult | UniApp.RequestSuccessCallbackResult
+
+    if (params.avatar) {
+      result = await promisify(uni.uploadFile)({
+        url: baseUrl + '/user/info',
+        filePath: params.avatar,
+        name: 'avatar',
+        header: await getHeader(),
+        formData: {
+          nickname: params.nickname,
+        },
+      })
+    } else {
+      result = await req({
+        url: baseUrl + '/user/info',
+        method: 'POST',
+        data: params,
+        header: await getHeader(),
+      })
+    }
+    return parseResponse(result) as UserInfo
   },
 }

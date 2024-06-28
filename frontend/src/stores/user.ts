@@ -9,16 +9,7 @@ export const useUserStore = defineStore('user', () => {
   onMounted(() => {
     watchEffect(async () => {
       if (token.value) {
-        try {
-          userInfo.value = await api.getUserInfo()
-        } catch (error: any) {
-          if (error.message === 'Unauthorized') {
-            userInfo.value = undefined
-            token.value = ''
-          } else {
-            uni.showModal({ title: `获取用户信息失败`, content: error.message })
-          }
-        }
+        refetchUserInfo()
       }
     })
   })
@@ -31,10 +22,25 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  async function refetchUserInfo() {
+    try {
+      userInfo.value = await api.getUserInfo()
+    } catch (error: any) {
+      if (error.message === 'Unauthorized') {
+        userInfo.value = undefined
+        token.value = ''
+      } else {
+        uni.showModal({ title: `获取用户信息失败`, content: error.message })
+      }
+    }
+  }
+
   return {
     token,
     userInfo,
     loggedIn,
+
     initialized,
+    refetchUserInfo,
   }
 })
