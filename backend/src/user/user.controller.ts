@@ -163,11 +163,17 @@ export class UserController {
     const res = await fetch(
       `https://restapi.amap.com/v3/geocode/regeo?key=${process.env.AMAP_API_KEY}&location=${longtitude},${latitude}`,
     )
-    const json = (await res.json()) as AMapAddress
+    const address = (await res.json()) as AMapAddress
+    if (typeof address.regeocode.formatted_address !== 'string') {
+      throw new BadRequestException('无法获取地址信息')
+    }
     const resWeather = await fetch(
-      `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.AMAP_API_KEY}&city=${json.regeocode.addressComponent.adcode}`,
+      `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.AMAP_API_KEY}&city=${address.regeocode.addressComponent.adcode}`,
     )
     const weather = (await resWeather.json()) as AMapWeather
+    if (weather.status !== '1') {
+      throw new BadRequestException('无法获取天气信息')
+    }
     return weather.lives[0]
   }
 }

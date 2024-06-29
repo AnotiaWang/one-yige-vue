@@ -76,6 +76,7 @@
   const currentTab = ref<Tab>(Tab.Read)
 
   const articles = ref<Article[]>([])
+  const networkConnected = inject<Ref<boolean>>('networkConnected')!
 
   async function fetchArticles() {
     try {
@@ -89,7 +90,9 @@
     }
   }
 
-  onMounted(() => {
-    fetchArticles()
+  watchEffect(() => {
+    if (networkConnected.value) {
+      fetchArticles()
+    }
   })
 </script>

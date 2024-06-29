@@ -5,10 +5,11 @@ export const useUserStore = defineStore('user', () => {
   const token = useStorageValue<string>('token', '', { noParse: true })
   const userInfo = ref<UserInfo>()
   const loggedIn = computed(() => !!userInfo.value)
+  const networkConnected = inject<Ref<boolean>>('networkConnected')!
 
   onMounted(() => {
     watchEffect(async () => {
-      if (token.value) {
+      if (token.value && networkConnected.value) {
         refetchUserInfo()
       }
     })

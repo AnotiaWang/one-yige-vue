@@ -141,6 +141,7 @@
   })
   const randomArticle = ref<Article>()
   const weather = ref<{ error?: string; data?: AMapWeather }>()
+  const networkConnected = inject<Ref<boolean>>('networkConnected')!
 
   async function listCards() {
     try {
@@ -287,9 +288,11 @@
     currentCard.value = cards.value[current]
   }
 
-  onMounted(() => {
-    listCards()
-    getArticle()
-    getWeather()
+  watchEffect(() => {
+    if (networkConnected.value) {
+      listCards()
+      getArticle()
+      getWeather()
+    }
   })
 </script>
