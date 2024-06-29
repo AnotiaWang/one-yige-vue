@@ -13,6 +13,12 @@
 			}
 		},
 		{
+			"path": "pages/index/settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
 			"path": "pages/login-register/index",
 			"style": {
 				"navigationStyle": "custom"

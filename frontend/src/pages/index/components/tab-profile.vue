@@ -78,11 +78,15 @@
         <text class="ml-4 text-14px">关注我们</text>
         <text class="ml-auto material-icons-outlined !text-12px">arrow_forward_ios</text>
       </view>
-      <view class="mt-1px px-6 py-4 bg-white flex items-center text-gray-5">
+      <navigator
+        class="mt-1px px-6 py-4 bg-white flex items-center text-gray-5"
+        hover-class="none"
+        url="settings"
+      >
         <view class="material-icons-outlined">settings</view>
         <text class="ml-4 text-14px">设置</text>
         <text class="ml-auto material-icons-outlined !text-12px">arrow_forward_ios</text>
-      </view>
+      </navigator>
     </view>
 
     <view v-else class="flex flex-col h-full">
