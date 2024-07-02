@@ -1,10 +1,12 @@
 import type { AMapWeather, Article, DailyCard, UserInfo } from '@/types/entity'
 
+// 对 uni.request 进行 promisify 包装
 const req = promisify(uni.request)
 
 // const baseUrl = 'http://localhost:3000'
 const baseUrl = 'http://172.29.18.28:3000'
 
+// 处理后端返回的数据
 function parseResponse(
   result: UniApp.RequestSuccessCallbackResult | UniApp.UploadFileSuccessCallbackResult,
 ) {
@@ -18,6 +20,7 @@ function parseResponse(
   return result.data
 }
 
+// 从 Pinia store 中获取 token，调用需要鉴权的接口时需要传递 token
 async function getHeader() {
   const userStore = useUserStore()
   if (userStore.token) return { Authorization: 'Bearer ' + userStore.token }
